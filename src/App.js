@@ -7,6 +7,7 @@
 import React, { Component } from 'react';
 import Tooltip from "react-tooltip"
 import logo from './logo.svg';
+import SimpleStorage from "react-simple-storage";
 import './App.css';
 
 class App extends Component {
@@ -22,9 +23,6 @@ class App extends Component {
   updateInput(value) {
     // update react state
     this.setState({ "newItem": value });
-
-    // update localStorage
-    localStorage.setItem("newItem", value);
   };
 
   addItem() {
@@ -45,10 +43,6 @@ class App extends Component {
       list,
       newItem: ""
     });
-
-    // update localStorage
-    localStorage.setItem("list", JSON.stringify(list));
-    localStorage.setItem("newItem", "");
   };
 
   deleteItem(id) {
@@ -58,38 +52,15 @@ class App extends Component {
     const updatedList = list.filter(item => item.id !== id);
 
     this.setState({ list: updatedList });
-
-    // update localStorage
-    localStorage.setItem("list", JSON.stringify(updatedList));
-  };
-
-  hydrateStateWithLocalStorage() {
-    // for all items in state
-    for (let key in this.state) {
-      // if the key exists in localStorage
-      if (localStorage.hasOwnProperty(key)) {
-        // get the key's value from localStorage
-        let value = localStorage.getItem(key);
-
-        // parse the localStorage string and setState
-        try {
-          value = JSON.parse(value);
-          this.setState({ [key]: value });
-        } catch (e) {
-          // handle empty string
-          this.setState({ [key]: value });
-        }
-      }
-    }
-  };
-
-  componentDidMount() {
-    this.hydrateStateWithLocalStorage();
   };
 
   render() {
+
     return (
       <div className="App">
+
+      <SimpleStorage parent={this} />
+
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">todo.react</h1>
