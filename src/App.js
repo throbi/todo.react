@@ -15,21 +15,32 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newItem: "",
+      newItem: {
+        todo: "",
+        done: false
+      },
       list: []
     };
   };
 
   updateInput(value) {
     // update react state
-    this.setState({ "newItem": value });
+    this.setState({
+     "newItem": {
+        todo: value,
+        done: false
+      }
+    });
   };
 
   addItem() {
     // create a new item
     const newItem = {
       id: 1 + Math.random(),
-      value: this.state.newItem.slice()
+      value: {
+        todo: this.state.newItem.todo.slice(),
+        done: false
+      }
     };
 
     // copy current list of items
@@ -41,7 +52,10 @@ class App extends Component {
     // update state with new list, reset the new item input
     this.setState({
       list,
-      newItem: ""
+      newItem: {
+        todo: "",
+        done: false
+      }
     });
   };
 
@@ -71,14 +85,14 @@ class App extends Component {
           <input
             type="text"
             placeholder="Enter new todo ..."
-            value={this.state.newItem}
+            value={this.state.newItem.todo}
             onChange={e => this.updateInput(e.target.value)}
             onKeyPress={(e) => {if(e.key === 'Enter') {this.addItem()}}}/>
 
 
           <button data-tip data-for="addButton"
             onClick={() => {this.addItem(); Tooltip.hide();}}
-            disabled={!this.state.newItem.length}>+
+            disabled={!this.state.newItem.todo.length}>+
           </button>
 
           <ul>
@@ -86,7 +100,7 @@ class App extends Component {
               // todo: find solution with only one tooltip element
               return (
                 <li key={item.id}>
-                  {item.value}
+                  {item.value.todo + " - "+ item.value.done}
                   <button 
                     data-tip data-for="removeButton" 
                     onClick={() => this.deleteItem(item.id)}>
