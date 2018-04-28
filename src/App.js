@@ -14,6 +14,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
+    this.maxTodoLength = 50;
     this.state = {
       newItem: {
         todo: "",
@@ -97,6 +98,7 @@ class App extends Component {
           
           <input
             type="text"
+            maxlength = {this.maxTodoLength}
             placeholder="Enter new todo ..."
             value={this.state.newItem.todo}
             onChange={e => this.updateInput(e.target.value)}
