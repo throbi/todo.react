@@ -68,6 +68,19 @@ class App extends Component {
     this.setState({ list: updatedList });
   };
 
+  checkItem(id) {
+    // copy current list of items
+    const updatedList = [...this.state.list];
+
+    const currentItem = updatedList.filter(item => item.id === id)[0];
+    console.log(currentItem);
+    currentItem.value.done = !currentItem.value.done;
+    console.log(currentItem.value.done);
+
+    this.setState({ list: updatedList });
+    Tooltip.hide();
+  };
+
   render() {
 
     return (
@@ -102,13 +115,28 @@ class App extends Component {
                 <li key={item.id}>
                   {item.value.todo + " - "+ item.value.done}
                   <button 
-                    data-tip data-for="removeButton" 
+                    data-tip data-for={"doneButton" + item.id} 
+                    onClick={() => this.checkItem(item.id)}>
+                    {item.value.done ? "\u21bb" : "\u2714"}
+                  </button>
+
+                  {item.value.done ? 
+                    <Tooltip id={"doneButton" + item.id} effect="solid" type="error">
+                      mark "{item.value.todo}" as open
+                    </Tooltip> : 
+                    <Tooltip id={"doneButton" + item.id} effect="solid" type="success">
+                      mark "{item.value.todo}" as done
+                    </Tooltip>
+                  }
+
+                  <button 
+                    data-tip data-for={"deleteButton" + item.id} 
                     onClick={() => this.deleteItem(item.id)}>
                     -
                   </button>
 
-                  <Tooltip id="removeButton" effect="solid" type="warning">
-                    remove todo from the list, no undo possible
+                  <Tooltip id={"deleteButton" + item.id} effect="solid" type="warning">
+                    remove "{item.value.todo}" from the list, no undo possible
                   </Tooltip>
                 </li>
               );
