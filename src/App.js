@@ -22,6 +22,9 @@ class App extends Component {
   updateInput(value) {
     // update react state
     this.setState({ "newItem": value });
+
+    // update localStorage
+    localStorage.setItem("newItem", value);
   };
 
   addItem() {
@@ -42,6 +45,10 @@ class App extends Component {
       list,
       newItem: ""
     });
+
+    // update localStorage
+    localStorage.setItem("list", JSON.stringify(list));
+    localStorage.setItem("newItem", "");
   };
 
   deleteItem(id) {
@@ -51,10 +58,36 @@ class App extends Component {
     const updatedList = list.filter(item => item.id !== id);
 
     this.setState({ list: updatedList });
+
+    // update localStorage
+    localStorage.setItem("list", JSON.stringify(updatedList));
+  };
+
+  hydrateStateWithLocalStorage() {
+    // for all items in state
+    for (let key in this.state) {
+      // if the key exists in localStorage
+      if (localStorage.hasOwnProperty(key)) {
+        // get the key's value from localStorage
+        let value = localStorage.getItem(key);
+
+        // parse the localStorage string and setState
+        try {
+          value = JSON.parse(value);
+          this.setState({ [key]: value });
+        } catch (e) {
+          // handle empty string
+          this.setState({ [key]: value });
+        }
+      }
+    }
+  };
+
+  componentDidMount() {
+    this.hydrateStateWithLocalStorage();
   };
 
   render() {
-
     return (
       <div className="App">
         <header className="App-header">
