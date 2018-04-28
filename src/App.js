@@ -115,7 +115,13 @@ class App extends Component {
               // todo: find solution with only one tooltip element
               return (
                 <li key={item.id}>
-                  {item.value.todo + " - "+ item.value.done}
+                  <span data-tip data-for="inPlaceEdit">
+                    {item.value.todo + " - "+ item.value.done}
+                  </span>
+                  <Tooltip id="inPlaceEdit" effect="solid">
+                    click to edit
+                  </Tooltip>
+
                   <button 
                     data-tip data-for={"doneButton" + item.id} 
                     onClick={() => this.checkItem(item.id)}>
