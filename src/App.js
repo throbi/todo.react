@@ -8,20 +8,38 @@ import React, { Component } from 'react';
 import Tooltip from "react-tooltip"
 import logo from './logo.svg';
 import SimpleStorage from "react-simple-storage";
+import InlineEdit from 'react-edit-inplace';
 import './App.css';
+
+const maxTodoLength = 50;
 
 class App extends Component {
 
   constructor(props) {
     super(props);
-    this.maxTodoLength = 50;
     this.state = {
       newItem: {
         todo: "",
         done: false
       },
-      list: []
+      list: [],
+      message: "Edit me!"
     };
+
+    this.todoUpdated = this.todoUpdated.bind(this);
+  };
+
+  todoUpdated(data) {
+    console.log("------ update -----");
+    console.log(data)
+    this.setState({...data});
+  };
+
+  validateUpdatedTodo(updatedTodo){
+    console.log(updatedTodo);
+    console.log(updatedTodo.length <= maxTodoLength);
+    console.log(maxTodoLength);
+    return (updatedTodo.length > 0 && updatedTodo.length <= maxTodoLength);
   };
 
   updateInput(value) {
@@ -74,17 +92,15 @@ class App extends Component {
     const updatedList = [...this.state.list];
 
     const currentItem = updatedList.filter(item => item.id === id)[0];
-    console.log(currentItem);
     currentItem.value.done = !currentItem.value.done;
-    console.log(currentItem.value.done);
 
     this.setState({ list: updatedList });
     Tooltip.hide();
   };
 
   render() {
-
     return (
+
       <div className="App">
 
       <SimpleStorage parent={this} />
@@ -92,13 +108,20 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">todo.react</h1>
+
+          <InlineEdit
+            validate = {this.validateUpdatedTodo}
+            text = {this.state.message}
+            paramName = "message"
+            change = {this.todoUpdated} />
+
         </header>
 
         <div>
           
           <input
             type="text"
-            maxlength = {this.maxTodoLength}
+            maxLength = {this.maxTodoLength}
             placeholder="Enter new todo ..."
             value={this.state.newItem.todo}
             onChange={e => this.updateInput(e.target.value)}
