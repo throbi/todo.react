@@ -29,16 +29,8 @@ class App extends Component {
     this.todoUpdated = this.todoUpdated.bind(this);
   };
 
-  todoUpdated(data) {
-    console.log("------ update -----");
-    console.log(data)
-    this.setState({...data});
-  };
-
   validateUpdatedTodo(updatedTodo){
-    console.log(updatedTodo);
-    console.log(updatedTodo.length <= maxTodoLength);
-    console.log(maxTodoLength);
+    Tooltip.hide();
     return (updatedTodo.length > 0 && updatedTodo.length <= maxTodoLength);
   };
 
@@ -98,6 +90,21 @@ class App extends Component {
     Tooltip.hide();
   };
 
+  todoUpdated(updatedTodo) {
+    // TODO: update react-edit-inline to pass objects, too
+    const updatedTodoId = Object.keys(updatedTodo)[0];
+    const updatedTodoText = updatedTodo[updatedTodoId];
+
+    // copy current list of items
+    const updatedList = [...this.state.list];
+
+    const currentItem = updatedList.filter(item => item.id === parseFloat(updatedTodoId))[0];
+    currentItem.value.todo = updatedTodoText;
+
+    this.setState({ list: updatedList });
+    Tooltip.hide();
+  };
+
   render() {
     return (
 
@@ -108,13 +115,6 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">todo.react</h1>
-
-          <InlineEdit
-            validate = {this.validateUpdatedTodo}
-            text = {this.state.message}
-            paramName = "message"
-            change = {this.todoUpdated} />
-
         </header>
 
         <div>
@@ -127,7 +127,6 @@ class App extends Component {
             onChange={e => this.updateInput(e.target.value)}
             onKeyPress={(e) => {if(e.key === 'Enter') {this.addItem()}}}/>
 
-
           <button data-tip data-for="addButton"
             onClick={() => {this.addItem(); Tooltip.hide();}}
             disabled={!this.state.newItem.todo.length}>+
@@ -135,11 +134,17 @@ class App extends Component {
 
           <ul>
             {this.state.list.map(item => {
-              // todo: find solution with only one tooltip element
               return (
                 <li key={item.id}>
                   <span data-tip data-for="inPlaceEdit">
-                    {item.value.todo + " - "+ item.value.done}
+                    <InlineEdit
+                      validate = {this.validateUpdatedTodo}
+                      text = {item.value.todo}
+                      paramName = {"" + item.id}
+                      change = {this.todoUpdated}
+                      style = {{
+                        textDecoration: item.value.done ? "line-through" : "initial"
+                      }} />
                   </span>
                   <Tooltip id="inPlaceEdit" effect="solid">
                     click to edit
