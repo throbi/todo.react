@@ -11,7 +11,6 @@ describe('the todo.react app', () => {
   beforeEach(() => {
     div = document.createElement('div');
     todoApp = ReactDOM.render(<App />, div);
-    localStorage.clear();
   });
   
   afterEach(() => {
@@ -116,6 +115,46 @@ describe('the todo.react app', () => {
     expect(todoApp.state.list.length).toBe(1);
     expect(todoApp.state.list[0].value.todo).toEqual('updated todo');
     expect(todoApp.state.list[0].value.done).toBe(false);
+  });
+
+  it('stores todos into local storage', () => {
+    todoApp.updateInput('new todo');
+    todoApp.addItem();
+
+    // TODO: is it possible to update local storage mock without
+    // unmount and re-render?
+    ReactDOM.unmountComponentAtNode(div);
+    todoApp = ReactDOM.render(<App />, div);
+
+    var listInLocalStorage = JSON.parse(localStorage.getItem('_list'));
+    expect(listInLocalStorage.length).toBe(1);
+    expect(listInLocalStorage[0].value.done).toBe(false);
+    expect(listInLocalStorage[0].value.todo).toEqual('new todo');
+
+    var updatedTodo = {};
+    updatedTodo[todoApp.state.list[0].id] = 'updated todo';
+
+    todoApp.todoUpdated(updatedTodo);
+    // TODO: is it possible to update local storage mock without
+    // unmount and re-render?
+    ReactDOM.unmountComponentAtNode(div);
+    todoApp = ReactDOM.render(<App />, div);
+
+    var listInLocalStorage = JSON.parse(localStorage.getItem('_list'));
+    expect(listInLocalStorage.length).toBe(1);
+    expect(listInLocalStorage[0].value.done).toBe(false);
+    expect(listInLocalStorage[0].value.todo).toEqual('updated todo');
+
+    todoApp.checkItem(todoApp.state.list[0].id);
+    // TODO: is it possible to update local storage mock without
+    // unmount and re-render?
+    ReactDOM.unmountComponentAtNode(div);
+    todoApp = ReactDOM.render(<App />, div);
+
+    var listInLocalStorage = JSON.parse(localStorage.getItem('_list'));
+    expect(listInLocalStorage.length).toBe(1);
+    expect(listInLocalStorage[0].value.done).toBe(true);
+    expect(listInLocalStorage[0].value.todo).toEqual('updated todo');
   });
 
 });
