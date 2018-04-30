@@ -27,22 +27,25 @@
   width: 200px;
   font-size: medium;
   background: #eee;
+  height: 23px;
 }
 
 .editedTodo{
   font-size: medium;
   background: #eee;
   text-align: right;
+  width: 130px;
 }
 
 button {
-  font-size: medium;
+  font-size: smaller;
   border-radius: 5px 5px 5px 5px;
  -webkit-border-radius: 5px 5px 5px 5px;
  -moz-border-radius: 5px 5px 5px 5px;
   margin-right: 5px;
   margin-left: 5px;
   width: 50px;
+  height: 27px;
   background: #eee;
 }
 
