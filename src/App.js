@@ -144,7 +144,7 @@ class App extends Component {
                 <li key={item.id}>
                   <span data-tip data-for="inPlaceEdit">
                     <InlineEdit
-                      activeClassName = "newTodo"
+                      activeClassName = "editedTodo"
                       validate = {this.validateUpdatedTodo}
                       text = {item.value.todo}
                       paramName = {"" + item.id}
