@@ -22,6 +22,11 @@
     "deploy": "gh-pages -d build"
   },
   "devDependencies": {
-    "gh-pages": "^1.1.0"
+    "gh-pages": "^1.1.0",
+    "jest-enzyme": "^6.0.0",
+    "jest-localstorage-mock": "^2.2.0"
+  },
+  "jest": {
+    "setupFiles": ["jest-localstorage-mock"]
   }
 }

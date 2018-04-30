@@ -22,8 +22,7 @@ class App extends Component {
         todo: "",
         done: false
       },
-      list: [],
-      message: "Edit me!"
+      list: []
     };
 
     this.todoUpdated = this.todoUpdated.bind(this);
