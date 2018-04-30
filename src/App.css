@@ -3,20 +3,61 @@
 }
 
 .App-logo {
-  height: 80px;
+  height: 60px;
 }
 
 .App-header {
   background-color: #888;
-  height: 150px;
+  height: 100px;
   padding: 10px;
   color: white;
 }
 
 .App-title {
-  font-size: 1.5em;
+  font-size: large;
+  color: #eee;
 }
 
 .App-intro {
   font-size: large;
+  color: #bbb;
 }
+
+.newTodo {
+  width: 200px;
+  font-size: medium;
+  background: #efc;
+}
+
+button {
+  font-size: medium;
+  border-radius: 5px 5px 5px 5px;
+ -webkit-border-radius: 5px 5px 5px 5px;
+ -moz-border-radius: 5px 5px 5px 5px;
+  margin-right: 5px;
+  margin-left: 5px;
+  width: 50px;
+  background: #efc;
+}
+
+ul {
+  font-size: medium;
+  list-style-type: none;
+  text-align: center;
+  display: inline-block;
+  margin: 0px;
+  padding: 0px;
+}
+
+li {
+  display: table-row;
+  text-align: right;
+  width: 200px;
+}
+
+.centerDiv {
+  padding-top: 20px;
+  width: 100%;
+  text-align: center;
+}
+

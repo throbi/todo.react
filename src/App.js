@@ -105,25 +105,30 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className = "App">
 
-        <SimpleStorage parent={this} />
+        <SimpleStorage parent = {this} />
 
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">todo.react</h1>
+        <header className = "App-header">
+          <img src = {logo} className = "App-logo" alt = "todo.react" />
+          <div>
+            <span className = "App-title">todo.react </span> 
+            <span className = "App-intro">yet another todo web app</span>
+          </div>
         </header>
 
-        <div>
+        <div className = "centerDiv">
           <input
+            className = "newTodo"
             type="text"
-            maxLength = {this.maxTodoLength}
+            maxLength = {maxTodoLength}
             placeholder="Enter new todo ..."
             value={this.state.newItem.todo}
             onChange={e => this.updateInput(e.target.value)}
             onKeyPress={(e) => {if(e.key === 'Enter') {this.addItem()}}}/>
 
-          <button data-tip data-for="addButton"
+          <button 
+            data-tip data-for="addButton"
             onClick={() => {this.addItem(); Tooltip.hide();}}
             disabled={!this.state.newItem.todo.length}> 
             +
@@ -132,18 +137,20 @@ class App extends Component {
           <Tooltip id="addButton" effect="solid" type="success">
             Add todo to the list
           </Tooltip>
-
+          <br/><br/>
           <ul>
             {this.state.list.map(item => {
               return (
                 <li key={item.id}>
                   <span data-tip data-for="inPlaceEdit">
                     <InlineEdit
+                      activeClassName = "newTodo"
                       validate = {this.validateUpdatedTodo}
                       text = {item.value.todo}
                       paramName = {"" + item.id}
                       change = {this.todoUpdated}
                       style = {{
+                        paddingRight: "10px",
                         textDecoration: item.value.done ? "line-through" : "initial"
                       }} />
                   </span>
@@ -180,7 +187,6 @@ class App extends Component {
               );
             })}
           </ul>
-
         </div>
       </div>
     );
