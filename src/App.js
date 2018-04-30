@@ -34,7 +34,6 @@ class App extends Component {
   };
 
   updateInput(value) {
-    // update react state
     this.setState({
      "newItem": {
         todo: value,
@@ -106,10 +105,9 @@ class App extends Component {
 
   render() {
     return (
-
       <div className="App">
 
-      <SimpleStorage parent={this} />
+        <SimpleStorage parent={this} />
 
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
@@ -117,7 +115,6 @@ class App extends Component {
         </header>
 
         <div>
-          
           <input
             type="text"
             maxLength = {this.maxTodoLength}
@@ -128,8 +125,13 @@ class App extends Component {
 
           <button data-tip data-for="addButton"
             onClick={() => {this.addItem(); Tooltip.hide();}}
-            disabled={!this.state.newItem.todo.length}>+
+            disabled={!this.state.newItem.todo.length}> 
+            +
           </button>
+
+          <Tooltip id="addButton" effect="solid" type="success">
+            Add todo to the list
+          </Tooltip>
 
           <ul>
             {this.state.list.map(item => {
@@ -145,6 +147,7 @@ class App extends Component {
                         textDecoration: item.value.done ? "line-through" : "initial"
                       }} />
                   </span>
+                  
                   <Tooltip id="inPlaceEdit" effect="solid">
                     click to edit
                   </Tooltip>
@@ -177,12 +180,6 @@ class App extends Component {
               );
             })}
           </ul>
-        
-        <Tooltip id="addButton" effect="solid" type="success">
-            Add todo to the list
-          </Tooltip>
-          
-          
 
         </div>
       </div>
